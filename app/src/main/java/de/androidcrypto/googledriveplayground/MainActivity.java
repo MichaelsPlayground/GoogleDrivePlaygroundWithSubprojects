@@ -28,6 +28,8 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 
+import de.androidcrypto.googledriveplayground.prateekbangre.MainActivity2;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "GD Playground Main";
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private final String basicFilename = "txtfile";
     private final String fileExtension = ".txt";
 
+    Button subGoogleDriveDemo;
     Button generateFiles, signIn, queryFiles;
     com.google.android.material.textfield.TextInputEditText fileName;
 
@@ -53,7 +56,16 @@ public class MainActivity extends AppCompatActivity {
         queryFiles = findViewById(R.id.btnMainQueryFiles);
         fileName = findViewById(R.id.etMainFilename);
 
-
+        subGoogleDriveDemo = findViewById(R.id.btnMainSubGoogleDriveDemo);
+        subGoogleDriveDemo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "start sub project GoogleDriveDemo");
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+                // finish();
+            }
+        });
 
         queryFiles.setOnClickListener(new View.OnClickListener() {
             @Override

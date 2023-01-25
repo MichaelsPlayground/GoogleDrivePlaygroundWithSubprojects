@@ -24,11 +24,25 @@ build.gradle (app):
     implementation('com.google.api-client:google-api-client-android:1.26.0')
     implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0')
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    
+    // for subproject prateekbangre - GoogleDrive_demo
+    // for runtime permission
+    implementation 'com.karumi:dexter:6.2.1'
+    //for top side toast, text with animation
+    implementation 'net.steamcrafted:load-toast:1.0.12'    
 ````
 
 AndroidManifest.xml:
 ```plaintext
 <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permissions required by Google Auth -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 ```
 
 For DriveServiceHelper.java see here:
@@ -43,6 +57,24 @@ https://developers.google.com/android/reference/com/google/android/gms/tasks/Tas
 
 https://developers.google.com/android/reference/com/google/android/gms/tasks/TaskCompletionSource
 
+https://myksb1223.github.io/develop_diary/2019/04/13/Google-Drive-api-in-Android.html
+
+
+Subproject prateekbangre - GoogleDrive_demo
+
+Source: https://github.com/prateekbangre/GoogleDrive_demo
+
+**Don't forget to manually given permission to ALL FILES** using SETTINGS/APPS/GoogleDrivePlayground app
+
+A downloaded files is in Emulator: /storage/emulated/0/Download 
+
+The file path is set in prateekbangre/FilesAdapter.java/
+
+private static final String STORAGE_FOLDER_PATH = "/storage/emulated/0/Download";
+
+https://ammar.lanui.online/integrate-google-drive-rest-api-on-android-app-bc4ddbd90820
+
+https://github.com/ammarptn/GDrive-Rest-Android
 
 # Registering for Google Drive
 

@@ -4,10 +4,13 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.OpenableColumns;
 import android.util.Pair;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.api.client.http.ByteArrayContent;
 import com.google.api.services.drive.Drive;
@@ -21,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -106,7 +110,8 @@ public class DriveServiceHelper {
      * request Drive Full Scope in the <a href="https://play.google.com/apps/publish">Google
      * Developer's Console</a> and be submitted to Google for verification.</p>
      */
-    public Task<FileList> queryFiles() {
+    // old with deprecated Tasks.call
+    public Task<FileList> queryFilesOld() {
         return Tasks.call(mExecutor, new Callable<FileList>() {
             @Override
             public FileList call() throws Exception {
@@ -114,6 +119,31 @@ public class DriveServiceHelper {
             }
         });
     }
+
+    // new with TaskCompletionSource
+    // source: https://stackoverflow.com/a/70013433/8166854
+    public Task<FileList> queryFiles() {
+        final TaskCompletionSource<FileList> tcs = new TaskCompletionSource<FileList>();
+        ExecutorService service = Executors.newFixedThreadPool(1);
+        service.execute(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        FileList result = null;
+                        try {
+                            result = mDriveService.files().list().setSpaces("drive").execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        FileList finalResult = result;
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> tcs.setResult(finalResult), 1000);
+                    }
+                });
+        return tcs.getTask();
+    }
+
+
+
 
     /**
      * Returns an {@link Intent} for opening the Storage Access Framework file picker.

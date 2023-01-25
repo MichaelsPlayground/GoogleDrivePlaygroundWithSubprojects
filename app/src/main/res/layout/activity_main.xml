@@ -20,6 +20,12 @@
         android:text="generate files" />
 
     <Button
+        android:id="@+id/btnMainSubGoogleDriveDemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="subproject GoogleDrive_demo" />
+
+    <Button
         android:id="@+id/btnMainSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
