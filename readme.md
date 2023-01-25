@@ -76,6 +76,10 @@ https://ammar.lanui.online/integrate-google-drive-rest-api-on-android-app-bc4ddb
 
 https://github.com/ammarptn/GDrive-Rest-Android
 
+To access all folders on the device see this permission "MANAGE_EXTERNAL_STORAGE":
+
+https://developer.android.com/training/data-storage/manage-all-files
+
 # Registering for Google Drive
 
 As we discuss we need to Google Drive SDK, So in order to use it, we need to enable that API. Okay don't worry we will move forward step by step
