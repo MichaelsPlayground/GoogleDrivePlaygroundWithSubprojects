@@ -28,6 +28,8 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 
+import de.androidcrypto.googledriveplayground.ammarptn.MainActivity4;
+import de.androidcrypto.googledriveplayground.dbtest.ui.MainActivity3;
 import de.androidcrypto.googledriveplayground.prateekbangre.MainActivity2;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private final String fileExtension = ".txt";
 
     Button subGoogleDriveDemo;
+    Button subDatabaseTest;
+    Button subGDriveRest;
+    Button subBaMusic;
     Button generateFiles, signIn, queryFiles;
+    Button uploadFileFromInternalStorage;
     com.google.android.material.textfield.TextInputEditText fileName;
 
 
@@ -56,12 +62,56 @@ public class MainActivity extends AppCompatActivity {
         queryFiles = findViewById(R.id.btnMainQueryFiles);
         fileName = findViewById(R.id.etMainFilename);
 
+        uploadFileFromInternalStorage = findViewById(R.id.btnMainUploadFile);
+
         subGoogleDriveDemo = findViewById(R.id.btnMainSubGoogleDriveDemo);
+        subDatabaseTest = findViewById(R.id.btnMainSubDbTest);
+        subGDriveRest = findViewById(R.id.btnMainSubGDriveRest);
+        subBaMusic = findViewById(R.id.btnMainSubBAMusic);
+
+        subBaMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "start sub project BAMusic");
+                Intent intent = new Intent(MainActivity.this, de.androidcrypto.googledriveplayground.bamusic.MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        uploadFileFromInternalStorage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "upload a file from internal storage");
+                Intent intent = new Intent(MainActivity.this, UploadInternalActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        subGDriveRest.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Log.i(TAG, "start sub project GDriveRest");
+        Intent intent = new Intent(MainActivity.this, MainActivity4.class);
+        startActivity(intent);
+    }
+});
+
+
         subGoogleDriveDemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "start sub project GoogleDriveDemo");
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+                // finish();
+            }
+        });
+
+        subDatabaseTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "start sub project Database Test");
+                Intent intent = new Intent(MainActivity.this, MainActivity3.class);
                 startActivity(intent);
                 // finish();
             }
@@ -194,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                                     AndroidHttp.newCompatibleTransport(),
                                     new GsonFactory(),
                                     credential)
-                                    .setApplicationName("Drive API Migration")
+                                    .setApplicationName("GoogleDrivePlayground")
                                     .build();
 
                     // The DriveServiceHelper encapsulates all REST API and SAF functionality.

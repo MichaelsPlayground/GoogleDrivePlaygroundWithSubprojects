@@ -59,8 +59,11 @@ https://developers.google.com/android/reference/com/google/android/gms/tasks/Tas
 
 https://myksb1223.github.io/develop_diary/2019/04/13/Google-Drive-api-in-Android.html
 
+**Subproject ammarptn - GDrive-Rest-Android**
 
-Subproject prateekbangre - GoogleDrive_demo
+Source https://github.com/ammarptn/GDrive-Rest-Android
+
+**Subproject prateekbangre - GoogleDrive_demo**
 
 Source: https://github.com/prateekbangre/GoogleDrive_demo
 
@@ -79,6 +82,64 @@ https://github.com/ammarptn/GDrive-Rest-Android
 To access all folders on the device see this permission "MANAGE_EXTERNAL_STORAGE":
 
 https://developer.android.com/training/data-storage/manage-all-files
+
+https://stackoverflow.com/questions/59145619/uploading-all-files-from-local-directory-to-google-drive-google-drive-api-v3
+
+https://stackoverflow.com/questions/42698519/upload-large-files-to-the-google-drive
+
+https://stackoverflow.com/questions/tagged/google-drive-api+android
+
+https://stackoverflow.com/questions/72894657/unable-to-upload-file-in-specific-folder-in-google-drive-using-rest-api
+
+https://github.com/topics/google-drive-api?l=java&o=desc&s=updated
+
+https://github.com/tranbaoanhh27/BAMusic (A music player app for Android, supports uploading and downloading mp3 files from Google Drive.)
+
+https://github.com/rishshah/Pocket-Expense-Manager (Easy and customizable accounting app, old ?)
+
+https://github.com/ProgrammerGnome/Simple-Gaming-Chat-APP (? This is a very simple chat application using google drive api that allows multiple people to chat at the same time without any registration or account creation.)
+
+https://github.com/ErrorxCode/EasyDrive (OLD API ?, EasyDrive is a wrapper for the Google Drive API. It provides convenience methods for accessing the API.)
+
+https://github.com/isaric/drive-uploader (Java pure, 1Y, Uses the example Google Drive api code to create an application that uploads all files from a specified local folder to a specified remote Google Drive folder.)
+
+https://github.com/jug2505/Google-Drive-Saves-Synchronizer (pure Java)
+
+https://github.com/rconfa/android-customers-time-management (Drive + Calendar The goal of the application is to allow the user to keep track of the time spent by a customer to carry out a repair and at the same time, at the end of the intervention, to be able to enter a brief description of the work done and have the customer sign it as a form of acceptance. At the end of the work, once the customer has signed and accepted, the application will insert the image of the customer's signature in Google Drive and an event in Google Calendar)
+
+https://github.com/tejpratap46/Google-Drive-REST-Android
+
+**Subproject tranbaoanhh27 BAMusic**
+
+https://github.com/tranbaoanhh27/BAMusic
+
+A music player app for Android, supports uploading and downloading mp3 files from Google Drive.
+
+
+**Subproject: https://github.com/prof18/Database-Backup-Restore**
+
+Database Backup & Restore
+This is a simple app that shows how to perform backup and restore of a database. You can also upload it to Google Drive.
+The database is very simple and you can add students' information and the exams that they have passed. You can also visualize the two tables.
+Please be aware tha you need to create to connect the Google Drive API in the Google Cloud Console. More information can be found here
+This repo contains the code from the presentation: "How to deal with backup & restore on Android (The code is slighty different from the presentation)
+
+https://stackoverflow.com/questions/68437176/connecting-to-google-drive-api-v3-with-a-service-account-in-android-java-app
+
+https://stackoverflow.com/questions/49709342/java-download-and-delete-file-on-google-drive
+
+Test the access: 
+https://developers.google.com/drive/api/v3/reference/files/list#parameters
+
+Code samples: 
+https://github.com/googleworkspace/java-samples/tree/main/drive/snippets/drive_v3/src/main/java
+
+
+https://o7planning.org/11889/manipulating-files-and-folders-on-google-drive-using-java
+
+https://github.com/googlearchive/drive-appdatapreferences-android
+
+
 
 # Registering for Google Drive
 

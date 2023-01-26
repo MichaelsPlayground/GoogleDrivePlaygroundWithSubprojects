@@ -26,10 +26,34 @@
         android:text="subproject GoogleDrive_demo" />
 
     <Button
+        android:id="@+id/btnMainSubGDriveRest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="subproject Google Drive Rest" />
+
+    <Button
+        android:id="@+id/btnMainSubDbTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="subproject Database test" />
+
+    <Button
+        android:id="@+id/btnMainSubBAMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="subproject BAMusic" />
+
+    <Button
         android:id="@+id/btnMainSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="sign in to Google Drive" />
+
+    <Button
+        android:id="@+id/btnMainUploadFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="upload internal storage file to Google Drive" />
 
     <Button
         android:id="@+id/btnMainQueryFiles"
