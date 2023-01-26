@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                             FileList result = null;
                             try {
                                 result = googleDriveServiceOwn.files().list()
-                                        //.setQ("mimeType='text/plain'")
+                                        //.setQ("mimeType = 'application/vnd.google-apps.folder'") // list only folders
                                         .setSpaces("drive")
                                         //.setFields("nextPageToken, items(id, title)")
                                         .setPageToken(pageToken)
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                         } while (pageToken != null);
                         // files is containing all files
                         //return files;
-                        Log.i(TAG, "files is containing files: " + files.size());
+                        Log.i(TAG, "files is containing files or folders: " + files.size());
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < files.size(); i++) {
                             String content =
