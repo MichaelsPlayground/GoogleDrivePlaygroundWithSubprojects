@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,10 +25,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.Scope;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.FileContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
 
 import de.androidcrypto.googledriveplayground.ammarptn.MainActivity4;
 import de.androidcrypto.googledriveplayground.dbtest.ui.MainActivity3;
@@ -45,11 +50,16 @@ public class MainActivity extends AppCompatActivity {
     Button subBaMusic;
     Button generateFiles, signIn, queryFiles;
     Button uploadFileFromInternalStorage;
+    Button basicUploadFromInternalStorage;
+    Button basicListFiles;
+    Button basicCreateFolder;
     com.google.android.material.textfield.TextInputEditText fileName;
 
 
     private DriveServiceHelper mDriveServiceHelper;
     private static final int REQUEST_CODE_SIGN_IN = 1;
+
+    Drive googleDriveServiceOwn = null;
 
 
     @Override
@@ -63,11 +73,178 @@ public class MainActivity extends AppCompatActivity {
         fileName = findViewById(R.id.etMainFilename);
 
         uploadFileFromInternalStorage = findViewById(R.id.btnMainUploadFile);
+        basicUploadFromInternalStorage = findViewById(R.id.btnMainBasicUploadFile);
+        basicListFiles = findViewById(R.id.btnMainBasicListFiles);
+        basicCreateFolder = findViewById(R.id.btnMainBasicCreateFolder);
 
         subGoogleDriveDemo = findViewById(R.id.btnMainSubGoogleDriveDemo);
         subDatabaseTest = findViewById(R.id.btnMainSubDbTest);
         subGDriveRest = findViewById(R.id.btnMainSubGDriveRest);
         subBaMusic = findViewById(R.id.btnMainSubBAMusic);
+
+
+        basicCreateFolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Basic create a folder in Google Drive");
+                if (googleDriveServiceOwn == null) {
+                    Log.e(TAG, "please sign in before upload a file");
+                    return;
+                }
+                // https://developers.google.com/drive/api/guides/folder
+                Thread DoBasicCreateFolder = new Thread(){
+                    public void run(){
+                        Log.i(TAG, "running Thread DoBasicCreateFolder");
+
+                        // File's metadata.
+                        String folderName = "test";
+                        File fileMetadata = new File();
+                        fileMetadata.setName(folderName);
+                        fileMetadata.setMimeType("application/vnd.google-apps.folder");
+                        try {
+                            File file = googleDriveServiceOwn.files().create(fileMetadata)
+                                    .setFields("id")
+                                    .execute();
+                            Log.i(TAG, "new folder created in GoogleDrive: " + folderName);
+                            Log.i(TAG, "folderId is: " + file.getId());
+                            //System.out.println("Folder ID: " + file.getId());
+                            //return file.getId();
+                        } catch (GoogleJsonResponseException e) {
+                            // TODO(developer) - handle error appropriately
+                            System.err.println("Unable to create folder: " + e.getDetails());
+                            Log.e(TAG, "ERROR: " + e.getMessage());
+                            return;
+                            //throw e;
+                        } catch (IOException e) {
+                            //throw new RuntimeException(e);
+                            Log.e(TAG, "ERROR: " + e.getMessage());
+                            return;
+                        }
+                    }
+                };
+                DoBasicCreateFolder.start();
+            }
+        });
+
+        basicUploadFromInternalStorage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Basic upload from internal storage");
+                if (googleDriveServiceOwn == null) {
+                    Log.e(TAG, "please sign in before upload a file");
+                    return;
+                }
+                // https://developers.google.com/drive/api/guides/manage-uploads
+                Thread DoBasicUpload = new Thread(){
+                    public void run(){
+                        Log.i(TAG, "running Thread DoBasicUpload");
+                        //do something that return "Calling this from your main thread can lead to deadlock"
+                        // Upload file photo.jpg on drive.
+                        String filename = "txtfile1.txt";
+                        File fileMetadata = new File();
+                        //fileMetadata.setName("photo.jpg");
+                        fileMetadata.setName(filename);
+                        // File's content.
+                        java.io.File filePath = new java.io.File(view.getContext().getFilesDir(), filename);
+                        if (filePath.exists()) {
+                            Log.i(TAG, "filePath " + filename + " is existing");
+                        } else {
+                            Log.e(TAG, "filePath " + filename + " is NOT existing");
+                            return;
+                        }
+                        // Specify media type and file-path for file.
+                        //FileContent mediaContent = new FileContent("image/jpeg", filePath);
+                        FileContent mediaContent = new FileContent("text/plain", filePath);
+                        try {
+                            File file = googleDriveServiceOwn.files().create(fileMetadata, mediaContent)
+                                    .setFields("id")
+                                    .execute();
+                            System.out.println("File ID: " + file.getId());
+                            Log.i(TAG, "The file was saved with fileId: " + file.getId());
+                            Log.i(TAG, "The file has a size of: " + file.getSize() + " bytes");
+                            //return file.getId();
+                        } catch (GoogleJsonResponseException e) {
+                            // TODO(developer) - handle error appropriately
+                            System.err.println("Unable to upload file: " + e.getDetails());
+                            //throw e;
+                            Log.e(TAG, "ERROR: " + e.getDetails());
+                        } catch (IOException e) {
+                            //throw new RuntimeException(e);
+                            Log.e(TAG, "IOException: " + e.getMessage());
+                        }
+
+                    }
+                };
+                DoBasicUpload.start();
+            }
+        });
+
+        basicListFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Basic list files in Google Drive");
+                if (googleDriveServiceOwn == null) {
+                    Log.e(TAG, "please sign in before list files");
+                    return;
+                }
+                // https://developers.google.com/drive/api/guides/search-files
+                Thread DoBasicListFiles = new Thread(){
+                    public void run(){
+                        Log.i(TAG, "running Thread DoBasicListFiles");
+                        List<File> files = new ArrayList<File>();
+                        String pageToken = null;
+                        do {
+                            FileList result = null;
+                            try {
+                                result = googleDriveServiceOwn.files().list()
+                                        //.setQ("mimeType='text/plain'")
+                                        .setSpaces("drive")
+                                        //.setFields("nextPageToken, items(id, title)")
+                                        .setPageToken(pageToken)
+                                        .execute();
+                            } catch (IOException e) {
+                                //throw new RuntimeException(e);
+                                Log.e(TAG, "ERROR: " + e.getMessage());
+                            }
+                            // todo NPE error handling
+                            /*
+                            for (File file : result.getFiles()) {
+                                System.out.printf("Found file: %s (%s)\n",
+                                        file.getName(), file.getId());
+                            }
+                            
+                             */
+                            if (result != null) {
+                                files.addAll(result.getFiles());
+                            }
+
+                            pageToken = result != null ? result.getNextPageToken() : null;
+                        } while (pageToken != null);
+                        // files is containing all files
+                        //return files;
+                        Log.i(TAG, "files is containing files: " + files.size());
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < files.size(); i++) {
+                            String content =
+                                    files.get(i).getName() + " " +
+                                    files.get(i).getId() + " " +
+                                    files.get(i).getSize() + "\n";
+                            sb.append(content);
+                            sb.append("--------------------\n");
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                fileName.setText(sb.toString());
+                            }
+                        });
+
+                    }
+                };
+                DoBasicListFiles.start();
+            }
+        });
+
 
         subBaMusic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +427,9 @@ public class MainActivity extends AppCompatActivity {
                     // The DriveServiceHelper encapsulates all REST API and SAF functionality.
                     // Its instantiation is required before handling any onClick actions.
                     mDriveServiceHelper = new DriveServiceHelper(googleDriveService);
+
+                    googleDriveServiceOwn = googleDriveService; // todo
+
                 })
                 .addOnFailureListener(exception -> {
                     Log.e(TAG, "Unable to sign in.", exception);
