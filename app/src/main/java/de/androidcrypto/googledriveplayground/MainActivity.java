@@ -92,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 // https://developers.google.com/drive/api/guides/folder
-                Thread DoBasicCreateFolder = new Thread(){
-                    public void run(){
+                Thread DoBasicCreateFolder = new Thread() {
+                    public void run() {
                         Log.i(TAG, "running Thread DoBasicCreateFolder");
 
                         // File's metadata.
@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 // https://developers.google.com/drive/api/guides/manage-uploads
-                Thread DoBasicUpload = new Thread(){
-                    public void run(){
+                Thread DoBasicUpload = new Thread() {
+                    public void run() {
                         Log.i(TAG, "running Thread DoBasicUpload");
                         //do something that return "Calling this from your main thread can lead to deadlock"
                         // Upload file photo.jpg on drive.
@@ -188,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 // https://developers.google.com/drive/api/guides/search-files
-                Thread DoBasicListFiles = new Thread(){
-                    public void run(){
+                Thread DoBasicListFiles = new Thread() {
+                    public void run() {
                         Log.i(TAG, "running Thread DoBasicListFiles");
                         List<File> files = new ArrayList<File>();
                         String pageToken = null;
@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < files.size(); i++) {
                             String content =
                                     files.get(i).getName() + " " +
-                                    files.get(i).getId() + " " +
-                                    files.get(i).getSize() + "\n";
+                                            files.get(i).getId() + " " +
+                                            files.get(i).getSize() + "\n";
                             sb.append(content);
                             sb.append("--------------------\n");
                         }
@@ -265,13 +265,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         subGDriveRest.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Log.i(TAG, "start sub project GDriveRest");
-        Intent intent = new Intent(MainActivity.this, MainActivity4.class);
-        startActivity(intent);
-    }
-});
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "start sub project GDriveRest");
+                Intent intent = new Intent(MainActivity.this, MainActivity4.class);
+                startActivity(intent);
+            }
+        });
 
 
         subGoogleDriveDemo.setOnClickListener(new View.OnClickListener() {
@@ -304,27 +304,27 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                    mDriveServiceHelper.queryFiles()
-                            .addOnSuccessListener(fileList -> {
-                                System.out.println("received filelist");
-                                System.out.println("list entries: " + fileList.getFiles().size());
-                                StringBuilder builder = new StringBuilder();
-                                for (File file : fileList.getFiles()) {
-                                    //builder.append(file.getName()).append("\n");
-                                    builder.append("fileName: " + file.getName() + " fileId:" + file.getId()).append("\n");
-                                    System.out.println("fileName: " + file.getName()
-                                            + " fileId: " + file.getId()
-                                    + " fileSize: " + file.getSize());
+                mDriveServiceHelper.queryFiles()
+                        .addOnSuccessListener(fileList -> {
+                            System.out.println("received filelist");
+                            System.out.println("list entries: " + fileList.getFiles().size());
+                            StringBuilder builder = new StringBuilder();
+                            for (File file : fileList.getFiles()) {
+                                //builder.append(file.getName()).append("\n");
+                                builder.append("fileName: " + file.getName() + " fileId:" + file.getId()).append("\n");
+                                System.out.println("fileName: " + file.getName()
+                                        + " fileId: " + file.getId()
+                                        + " fileSize: " + file.getSize());
 
-                                }
-                                String fileNames = builder.toString();
-                                System.out.println(fileNames);
-                                fileName.setText(fileNames);
-                                //mDocContentEditText.setText(fileNames);
+                            }
+                            String fileNames = builder.toString();
+                            System.out.println(fileNames);
+                            fileName.setText(fileNames);
+                            //mDocContentEditText.setText(fileNames);
 
-                                //etReadOnlyMode();
-                            })
-                            .addOnFailureListener(exception -> Log.e(TAG, "Unable to query files.", exception));
+                            //etReadOnlyMode();
+                        })
+                        .addOnFailureListener(exception -> Log.e(TAG, "Unable to query files.", exception));
             }
         });
 
